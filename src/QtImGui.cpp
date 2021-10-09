@@ -117,7 +117,7 @@ public:
         w->installEventFilter(object);
     }
     virtual void removeEventFilter(QObject *object) override {
-        w->installEventFilter(object);
+        w->removeEventFilter(object);
     }
     QSize size() const override {
         return w->size();
