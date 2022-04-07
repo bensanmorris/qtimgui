@@ -332,11 +332,11 @@ void ImGuiRenderer::newFrame()
     io.DisplayFramebufferScale = ImVec2(m_window->devicePixelRatio(), m_window->devicePixelRatio());
 
     // Setup time step
-    double current_time =  QDateTime::currentMSecsSinceEpoch() / double(1000);
-    io.DeltaTime = g_Time > 0.0 ? (float)(current_time - g_Time) : (float)(1.0f/60.0f);
-    g_Time = current_time;
-    
-    
+    double current_time = QDateTime::currentMSecsSinceEpoch() / double(1000);
+    double delta_time   = current_time - g_Time;
+    io.DeltaTime        = delta_time > 0.0 ? (float)(delta_time) : (float)(1.0f/60.0f);
+    g_Time              = current_time;
+        
     // If ImGui wants to set cursor position (for example, during navigation by using keyboard)
     // we need to do it here (before getting `QCursor::pos()` below).
     setCursorPos(io);
