@@ -397,8 +397,6 @@ void ImGuiRenderer::onMousePressedChange(QMouseEvent *event, bool buttonDown)
     g_MousePressed[0] = event->buttons() & Qt::LeftButton;
     g_MousePressed[1] = event->buttons() & Qt::RightButton;
     g_MousePressed[2] = event->buttons() & Qt::MiddleButton;
-    ImGuiIO& io = ImGui::GetIO();
-    io.AddMouseButtonEvent(g_MousePressed[0] ? 0 : (g_MousePressed[1] ? 1 : (g_MousePressed[2] ? 2 : -1)), (buttonDown));
 }
 
 void ImGuiRenderer::onWheel(QWheelEvent *event)
