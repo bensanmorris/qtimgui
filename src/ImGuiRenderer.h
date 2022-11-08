@@ -45,7 +45,7 @@ public:
     ~ImGuiRenderer();
 
 private:
-    void onMousePressedChange(QMouseEvent *event);
+    void onMousePressedChange(QMouseEvent *event, bool buttonDown);
     void onWheel(QWheelEvent *event);
     void onKeyPressRelease(QKeyEvent *event);
     

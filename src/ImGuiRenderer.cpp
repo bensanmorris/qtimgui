@@ -392,11 +392,13 @@ ImGuiRenderer::~ImGuiRenderer()
   ImGui::DestroyContext(g_ctx);
 }
 
-void ImGuiRenderer::onMousePressedChange(QMouseEvent *event)
+void ImGuiRenderer::onMousePressedChange(QMouseEvent *event, bool buttonDown)
 {
     g_MousePressed[0] = event->buttons() & Qt::LeftButton;
     g_MousePressed[1] = event->buttons() & Qt::RightButton;
     g_MousePressed[2] = event->buttons() & Qt::MiddleButton;
+    ImGuiIO& io = ImGui::GetIO();
+    io.AddMouseButtonEvent(g_MousePressed[0] ? 0 : (g_MousePressed[1] ? 1 : (g_MousePressed[2] ? 2 : -1)), (buttonDown));
 }
 
 void ImGuiRenderer::onWheel(QWheelEvent *event)
@@ -517,8 +519,10 @@ bool ImGuiRenderer::eventFilter(QObject *watched, QEvent *event)
   if (watched == m_window->object()) {
     switch (event->type()) {
     case QEvent::MouseButtonPress:
+      this->onMousePressedChange(static_cast<QMouseEvent*>(event), true);
+      break;
     case QEvent::MouseButtonRelease:
-      this->onMousePressedChange(static_cast<QMouseEvent*>(event));
+      this->onMousePressedChange(static_cast<QMouseEvent*>(event), false);
       break;
     case QEvent::Wheel:
       this->onWheel(static_cast<QWheelEvent*>(event));
