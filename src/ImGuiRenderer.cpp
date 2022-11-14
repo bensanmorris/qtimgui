@@ -438,6 +438,7 @@ void ImGuiRenderer::onKeyPressRelease(QKeyEvent *event)
     if (key_it != keyMap.constEnd()) { // Qt's key found in keyMap
         const int imgui_key = *(key_it);
         io.KeysDown[imgui_key] = key_pressed;
+        io.AddKeyEvent(imgui_key, key_pressed);
     }
 
     if (key_pressed) {
