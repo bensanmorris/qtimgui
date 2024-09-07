@@ -22,7 +22,7 @@ namespace QtImGui {
 namespace {
 
 // Keyboard mapping. Dear ImGui use those indices to peek into the io.KeysDown[] array.
-const QHash<int, ImGuiKey> keyMap = {
+const QHash<int, int> keyMap = {
     { Qt::Key_Tab, ImGuiKey_Tab },
     { Qt::Key_Left, ImGuiKey_LeftArrow },
     { Qt::Key_Right, ImGuiKey_RightArrow },
@@ -82,7 +82,7 @@ void ImGuiRenderer::initialize(WindowWrapper *window) {
     io.BackendPlatformName = "qtimgui";
     
     // Setup keyboard mapping
-    for (ImGuiKey key : keyMap.values()) {
+    for (auto key : keyMap.values()) {
         io.KeyMap[key] = key;
     }
     
@@ -436,10 +436,10 @@ void ImGuiRenderer::onKeyPressRelease(QKeyEvent *event)
     // Translate `Qt::Key` into `ImGuiKey`, and apply 'pressed' state for that key
     const auto key_it = keyMap.constFind( event->key() );
     if (key_it != keyMap.constEnd()) { // Qt's key found in keyMap
-        const int imgui_key = *(key_it);
+        const auto imgui_key = *(key_it);
         io.KeysDown[imgui_key] = key_pressed;
 #if defined(__linux__)
-        io.AddKeyEvent(imgui_key, key_pressed);
+        io.AddKeyEvent((ImGuiKey)imgui_key, key_pressed);
 #endif
     }
 
